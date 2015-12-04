@@ -1,20 +1,15 @@
-# 2. faza: Uvoz podatkov
+library(dplyr)
 
-# Funkcija, ki uvozi podatke iz datoteke druzine.csv
-uvozi.druzine <- function() {
-  return(read.table("podatki/druzine.csv", sep = ";", as.is = TRUE,
-                      row.names = 1,
-                      col.names = c("obcina", "en", "dva", "tri", "stiri"),
-                      fileEncoding = "Windows-1250"))
+# Funkcija, ki uvozi podatke iz datoteke place_surs.csv
+uvozi.place_surs<- function() {
+  return(read.csv2("podatki/place_surs.csv", sep = ";", as.is = TRUE,
+                      skip=6, header=FALSE,
+                      col.names = c("", "kraj", "mesec","bruto", "neto"),
+                      fileEncoding = "windows-1250"))
 }
 
-# Zapišimo podatke v razpredelnico druzine.
-druzine <- uvozi.druzine()
+# Zapišimo podatke v razpredelnico place.
+place <- uvozi.place_surs()
 
-obcine <- uvozi.obcine()
-
-# Če bi imeli več funkcij za uvoz in nekaterih npr. še ne bi
-# potrebovali v 3. fazi, bi bilo smiselno funkcije dati v svojo
-# datoteko, tukaj pa bi klicali tiste, ki jih potrebujemo v
-# 2. fazi. Seveda bi morali ustrezno datoteko uvoziti v prihodnjih
-# fazah.
+place.kraj <- lapply(seq(1, nrow(place), 130), function(x) place[x + (1:129), c(-1, -2)])
+names(place.kraj) <- place[seq(1, nrow(place), 130), 2]
