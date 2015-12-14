@@ -6,8 +6,7 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2015/16.
 
 ## Tematika
 
-Izbrali si boste temo, s katero se bo vaš projekt ukvarjal. Tukaj boste
-napisali, kje ste dobili podatke, ter kakšen je vaš cilj.
+Izbrala sem si temo plač v Sloveniji in primerjavo po večjih slovenskih mestih. Vire bom črpala iz statističnega urada.
 
 ## Program
 
