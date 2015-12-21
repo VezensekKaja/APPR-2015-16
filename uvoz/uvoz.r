@@ -11,5 +11,5 @@ uvozi.place_obcine<- function() {
 # Zapišimo podatke v razpredelnico place.
 place <- uvozi.place_obcine()
 
-place.kraj <- lapply(seq(1, nrow(place), 17), function(x) place[x + (1:16), c(-1, -2)])
-names(place.kraj) <- place[seq(1, nrow(place), 17), 2]
+place.kraj <- lapply(seq(1, nrow(place), 19), function(x) place[x + (1:18), c(-1, -2)])
+names(place.kraj) <- place[seq(1, nrow(place), 19), 2]

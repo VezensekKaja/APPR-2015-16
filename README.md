@@ -6,7 +6,14 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2015/16.
 
 ## Tematika
 
-Izbrala sem si temo plač v Sloveniji in primerjavo po večjih slovenskih mestih. Vire bom črpala iz statističnega urada.
+Izbrala sem si temo plač v Sloveniji in primerjavo po vseh občinah v polletnih obdobjih od leta 2007 naprej. 
+
+Vire bom črpala iz statističnega urada 
+( http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=0701041S&ti=&path=../Database/Dem_soc/07_trg_dela/10_place/01_07010_place/&lang=2 )
+in pa iz spletne strani Soap 
+( http://www.saop.si/poslovne-informacije/podatki-za-obracun-in-opomniki/povprecne-in-minimalne-place/ )
+
+
 
 ## Program
 
