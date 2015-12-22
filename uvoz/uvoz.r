@@ -1,6 +1,6 @@
 library(dplyr)
 
-# Funkcija, ki uvozi podatke iz datoteke place_surs.csv
+# Funkcija, ki uvozi podatke iz datoteke place_obcine.csv
 uvozi.place_obcine<- function() {
   return(read.csv2("podatki/place_obcine.csv", sep = ";", as.is = TRUE,
                       skip=6, header=FALSE,
