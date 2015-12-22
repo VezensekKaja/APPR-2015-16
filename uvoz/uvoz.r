@@ -24,5 +24,6 @@ stran <- html_session(link) %>% read_html(encoding="UTF-8")
 tabela <- stran %>% html_nodes(xpath="//table[1]") %>% .[[1]] %>% html_table()
 Encoding(names(tabela)) <- "UTF-8"
 
+tabelazakraj <- filter(place, kraj == "Ljubljana")
 grafpike <- ggplot(filter(place, kraj == "Ljubljana"), aes(x=mesec, y=bruto)) + geom_point()
 grafcrte <- ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor")), aes(x=mesec, y=bruto, group = kraj, color = kraj)) + geom_line()
