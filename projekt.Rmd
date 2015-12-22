@@ -1,6 +1,6 @@
 ---
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
-author: "Študent FMF"
+author: "Kaja Vezenšek"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -19,7 +19,7 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Za vzorec bomo prikazali nekaj podatkov o slovenskih občinah.
+Ibrala sem si temo bruto in neto plač v Sloveniji v zadnjih letih. Za vzorec sem vzela plače na pol leta za vse občine.
 
 ***
 
@@ -29,15 +29,14 @@ Za vzorec bomo prikazali nekaj podatkov o slovenskih občinah.
 source("uvoz/uvoz.r", encoding = "UTF-8")
 ```
 
-Uvozili smo podatke o občinah v obliki CSV s statističnega urada ter v obliki HTML
-z Wikipedije. Poglejmo si začetka obeh uvoženih razpredelnic.
+Uvozila sm podatke o plačah v obliki CSV s statističnega urada ter v obliki HTML
+s strani Soap.
 
 
+Slika \ref{fig:graf} prikazuje plače v večjih slovenskih mestih, občin je občutno preveč za prikaz na enem grafu.
 
-Slika \ref{fig:graf} prikazuje porazdelitev števila naselij v občinah.
-
-```{r graf, echo=FALSE, fig.align='center', fig.cap='Histogram števila naselij v občinah'}
-ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor")), aes(x=mesec, y=bruto, group = kraj, color = kraj)) + geom_line()
+```{r graf, echo=FALSE, fig.align='center', fig.cap='Graf plač v večjih mestih'}
+ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica')), aes(x=mesec, y=bruto, group = kraj, color = kraj)) + geom_line()
 ```
 
 ***
