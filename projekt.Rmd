@@ -19,7 +19,7 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Ibrala sem si temo bruto in neto plač v Sloveniji v zadnjih letih. Za vzorec sem vzela plače na pol leta za vse občine.
+Izbrala sem si temo bruto in neto plač v Sloveniji v zadnjih letih. Za vzorec sem vzela plače na pol leta za vse občine.
 
 ***
 
