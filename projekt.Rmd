@@ -31,8 +31,8 @@ source("uvoz/uvoz.r", encoding = "UTF-8")
 
 Uvozila sm podatke o plačah v obliki CSV s statističnega urada ter v obliki HTML
 s strani Soap.
-Iz statističnega urada sem dobila podatke o vseh občinah, ki jih bom potem primerjala med seboj.
-S strani Soap pa sem dobila HTML podatke o povprečnih bruto in neto plačah v Sloveniji.
+Iz statističnega urada sem dobila podatke o vseh občinah, ki jih bom potem primerjala med seboj. Vzela sem le polletne podatke, da jih ne bi bilo preveč.
+S strani Soap pa sem dobila HTML podatke o povprečnih bruto in neto plačah v Sloveniji. 
 
 
 Slika \ref{fig:graf} prikazuje plače v večjih slovenskih mestih, občin je občutno preveč za prikaz na enem grafu.
