@@ -31,6 +31,8 @@ source("uvoz/uvoz.r", encoding = "UTF-8")
 
 Uvozila sm podatke o plačah v obliki CSV s statističnega urada ter v obliki HTML
 s strani Soap.
+Iz statističnega urada sem dobila podatke o vseh občinah, ki jih bom potem primerjala med seboj.
+S strani Soap pa sem dobila HTML podatke o povprečnih bruto in neto plačah v Sloveniji.
 
 
 Slika \ref{fig:graf} prikazuje plače v večjih slovenskih mestih, občin je občutno preveč za prikaz na enem grafu.
@@ -41,4 +43,9 @@ ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'C
 
 ```
 
+```{r grafic, echo=FALSE, fig.align='center', fig.cap='Graf neto plač v večjih mestih'}
+
+ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=mesec, y=neto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
+
+```
 ***
