@@ -10,8 +10,8 @@ Izbrala sem si temo plač v Sloveniji in primerjavo po vseh občinah v polletnih
 
 Vire bom črpala iz statističnega urada 
 ( http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=0701041S&ti=&path=../Database/Dem_soc/07_trg_dela/10_place/01_07010_place/&lang=2 )
-in pa iz spletne strani Soap 
-( http://www.saop.si/poslovne-informacije/podatki-za-obracun-in-opomniki/povprecne-in-minimalne-place/ )
+in pa iz spletne strani wikipedia
+( https://sl.wikipedia.org/wiki/Seznam_ob%C4%8Din_v_Sloveniji/ )
 
 
 
