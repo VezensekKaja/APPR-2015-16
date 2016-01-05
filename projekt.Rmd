@@ -29,11 +29,17 @@ Izbrala sem si temo bruto in neto plač v Sloveniji v zadnjih letih. Za vzorec s
 source("uvoz/uvoz.r", encoding = "UTF-8")
 ```
 
-Uvozila sm podatke o plačah v obliki CSV s statističnega urada ter v obliki HTML
-s strani Soap.
+Uvozila sm podatke o plačah v obliki CSV s statističnega urada (http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=0701041S&ti=&path=../Database/Dem_soc/07_trg_dela/10_place/01_07010_place/&lang=2) ter v obliki HTML
+s strani wikipedia ( https://sl.wikipedia.org/wiki/Seznam_ob%C4%8Din_v_Sloveniji ).
+Iz statističnega urada sem dobila podatke o vseh občinah, ki jih bom potem primerjala med seboj. Vzela sem le polletne podatke, da jih ne bi bilo preveč.
+S strani wikipedia pa sem dobila HTML podatke o velikosti občin. 
 
 
 Slika \ref{fig:graf} prikazuje plače v večjih slovenskih mestih, občin je občutno preveč za prikaz na enem grafu.
+
+```{r razpredelnice, echo=FALSE}
+kable(head(place))
+```
 
 ```{r graf, echo=FALSE, fig.align='center', fig.cap='Graf bruto plač v večjih mestih'}
 
@@ -41,4 +47,9 @@ ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'C
 
 ```
 
+```{r grafic, echo=FALSE, fig.align='center', fig.cap='Graf neto plač v večjih mestih'}
+
+ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=mesec, y=neto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
+
+```
 ***
