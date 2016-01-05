@@ -2,7 +2,7 @@
 uvozi.place_obcine<- function() {
   return(read.csv("podatki/place_obcine.csv", sep = ";", as.is = TRUE,
                       skip=6, header=FALSE, na.strings = "-",
-                      col.names = c("", "kraj", "mesec","bruto", "neto"),
+                      col.names = c("", "kraj", "leto", "mesec","bruto", "neto"),
                       fileEncoding = "windows-1250"))
 }
 
@@ -19,9 +19,9 @@ place <- place[,-1]
 
 place <- uredi(place, 1, 1, 18)
 
-link <- "http://www.saop.si/poslovne-informacije/podatki-za-obracun-in-opomniki/povprecne-in-minimalne-place/"
+link <- "https://sl.wikipedia.org/wiki/Seznam_ob%C4%8Din_v_Sloveniji/"
 stran <- html_session(link) %>% read_html(encoding="UTF-8")
-tabela <- stran %>% html_nodes(xpath="//table[1]") %>% .[[1]] %>% html_table()
+tabela <- stran %>% html_nodes(xpath="//table[1]") %>% .[[2]] %>% html_table()
 Encoding(names(tabela)) <- "UTF-8"
 
 tabelazakraj <- filter(place, kraj == "Ljubljana")
