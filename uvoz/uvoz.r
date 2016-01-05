@@ -19,7 +19,7 @@ place <- place[,-1]
 
 place <- uredi(place, 1, 1, 18)
 
-link <- "https://sl.wikipedia.org/wiki/Seznam_ob%C4%8Din_v_Sloveniji/"
+link <- "https://sl.wikipedia.org/wiki/Seznam_ob%C4%8Din_v_Sloveniji"
 stran <- html_session(link) %>% read_html(encoding="UTF-8")
 tabela <- stran %>% html_nodes(xpath="//table[1]") %>% .[[2]] %>% html_table()
 Encoding(names(tabela)) <- "UTF-8"
