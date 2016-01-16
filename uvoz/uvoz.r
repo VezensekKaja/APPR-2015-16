@@ -21,10 +21,17 @@ place <- uredi(place, 1, 1, 18)
 
 link <- "https://sl.wikipedia.org/wiki/Seznam_ob%C4%8Din_v_Sloveniji"
 stran <- html_session(link) %>% read_html(encoding="UTF-8")
-tabela <- stran %>% html_nodes(xpath="//table[1]") %>% .[[2]] %>% html_table()
-Encoding(names(tabela)) <- "UTF-8"
+tabela2 <- stran %>% html_nodes(xpath="//table[@class='wikitable sortable']") %>% .[[1]] %>% html_table()
+names(tabela2) <- 'kraj'
+Encoding(names(tabela2)) <- "UTF-8"
+Encoding(tabela2[[1]]) <- "UTF-8"
 
-tabelazakraj <- filter(place, kraj == "Ljubljana")
+zdruzeno <- merge(x = place, y = tabela2, by = "kraj", all.y = TRUE)
+zdruzeno1 <- zdruzeno %>% select(-starts_with('NA'))
+names(zdruzeno1) <- c("kraj" , "leto" , "mesec", "bruto", "neto" ,'površina')
+zdruzeno1[[6]]<-sub(",",".",zdruzeno1[[6]])
+
 grafpike <- ggplot(filter(place, kraj == "Ljubljana"), aes(x=mesec, y=bruto)) + geom_point()
 grafbruto <- ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=mesec, y=bruto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
 grafneto <- ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=mesec, y=neto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
+
