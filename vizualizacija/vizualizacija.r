@@ -1,13 +1,25 @@
 # 3. faza: Izdelava zemljevida
 
-# Uvozimo zemljevid.
-zemljevid <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
-                             "OB/OB", encoding = "Windows-1250")
+source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
+library(ggplot2)
+library(dplyr)
 
-# Preuredimo podatke, da jih bomo lahko izrisali na zemljevid.
-druzine <- preuredi(druzine, zemljevid, "OB_UIME", c("Ankaran", "Mirna"))
+pretvori.zemljevid <- function(zemljevid) {
+  fo <- fortify(zemljevid)
+  data <- zemljevid@data
+  data$id <- as.character(0:(nrow(data)-1))
+  return(inner_join(fo, data, by="id"))
+}
 
-# Izračunamo povprečno velikost družine.
-druzine$povprecje <- apply(druzine[1:4], 1, function(x) sum(x*(1:4))/sum(x))
-min.povprecje <- min(druzine$povprecje, na.rm=TRUE)
-max.povprecje <- max(druzine$povprecje, na.rm=TRUE)
+# 1. Slovenske občine
+
+placepoobcinah <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
+                          "OB/OB", encoding = "Windows-1250")
+
+## Zemljevid z barvami za površino
+zem <- ggplot() + geom_polygon(data = zdr, aes(x=long, y=lat, group=group,
+                                              fill=neto),
+                               color = "grey") +
+  scale_fill_gradient(low="#3F7F3F", high="#00FF00") +
+  guides(fill = guide_colorbar(title = "neto"))
+print(zem)
