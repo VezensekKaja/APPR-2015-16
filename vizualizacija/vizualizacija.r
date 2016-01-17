@@ -17,9 +17,16 @@ placepoobcinah <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_
                           "OB/OB", encoding = "Windows-1250")
 
 ## Zemljevid z barvami za površino
-zem <- ggplot() + geom_polygon(data = zdr, aes(x=long, y=lat, group=group,
-                                              fill=neto),
+ob <- pretvori.zemljevid(placepoobcinah)
+zem <- ggplot() + geom_polygon(data = zdr %>%
+                                 filter(leto == 2007, mesec == "Januar") %>%
+                                 right_join(ob, by = c("kraj" = "OB_UIME")),
+                               aes(x=long, y=lat, group=group, fill=neto),
                                color = "grey") +
   scale_fill_gradient(low="#3F7F3F", high="#00FF00") +
   guides(fill = guide_colorbar(title = "neto"))
-print(zem)
+
+placepoobcinah$kraj <- gsub("-", " - ", placepoobcinah$OB_UIME)
+placepoobcinah$kraj[placepoobcinah$kraj == "Kanal"] <- "Kanal ob Soči"
+placepoobcinah$kraj[placepoobcinah$kraj == "Loški Potok"] <- "Loški potok"
+placepoobcinah$kraj[placepoobcinah$kraj == "Sveti Andraž v Slovenskih goricah"] <- "Sveti Andraž v Slov. goricah"
