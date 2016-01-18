@@ -16,18 +16,20 @@ pretvori.zemljevid <- function(zemljevid) {
 placepoobcinah <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
                           "OB/OB", encoding = "Windows-1250")
 
-## Zemljevid z barvami za površino
-ob <- pretvori.zemljevid(placepoobcinah)
+## Zemljevid z barvami za neto plače
 placepoobcinah$kraj <- gsub("-", " - ", placepoobcinah$OB_UIME)
 placepoobcinah$kraj[placepoobcinah$kraj == "Kanal"] <- "Kanal ob Soči"
 placepoobcinah$kraj[placepoobcinah$kraj == "Loški Potok"] <- "Loški potok"
-placepoobcinah$kraj[placepoobcinah$kraj == "Sveti Andraž v Slovenskih goricah"] <- "Sveti Andraž v Slov. goricah"
+placepoobcinah$kraj[placepoobcinah$kraj == "Sveti Andraž v Slov. goricah"] <- "Sveti Andraž v Slovenskih goricah"
+placepoobcinah$kraj[placepoobcinah$kraj == "Piran/Pirano"] <- "Piran"
+
+placepoobcinah$kraj <- factor(placepoobcinah$kraj)
+zdr$kraj <- factor(zdr$kraj)
+ob <- pretvori.zemljevid(placepoobcinah)
 
 zem <- ggplot() + geom_polygon(data = zdr %>%
                                  filter(leto == 2007, mesec == "Januar") %>%
-                                 right_join(ob, by = c("kraj" = "OB_UIME")),
-                               aes(x=long, y=lat, group=group, fill=neto),
-                               color = "grey") +
+                                 right_join(ob), aes(x=long, y=lat, group=group, fill=neto), color = "grey") +
   scale_fill_gradient(low="#002b29", high="#00fff3") +
   guides(fill = guide_colorbar(title = "neto"))
 print(zem)
