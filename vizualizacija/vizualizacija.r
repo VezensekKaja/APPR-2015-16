@@ -40,5 +40,5 @@ print(zem2)
 
 zem3 <- zem2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", neto > 1000)
                          %>% inner_join(placepoobcinah@data), aes(x = Y_C, y = X_C),
-                         size = 3, vjust = 2, label = 'kraji')
+                         size = 3, vjust = 2, label = placepoobcinah@data)
 print(zem3)
