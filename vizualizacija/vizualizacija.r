@@ -32,3 +32,13 @@ zem <- ggplot() + geom_polygon(data = zdr %>%
   scale_fill_gradient(low="#002b29", high="#00fff3") +
   guides(fill = guide_colorbar(title = "neto"))
 print(zem)
+
+zem2 <- zem +geom_point(data = zdr %>%
+                     filter(leto == 2015, mesec == "Julij", neto > 1000) %>%
+                     inner_join(placepoobcinah@data), aes(x = Y_C, y = X_C))
+print(zem2)
+
+zem3 <- zem2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", neto > 1000)
+                         %>% inner_join(placepoobcinah@data), aes(x = Y_C, y = X_C),
+                         size = 3, vjust = 2, label = 'kraji')
+print(zem3)
