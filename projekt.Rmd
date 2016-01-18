@@ -38,18 +38,34 @@ S strani wikipedia pa sem dobila HTML podatke o velikosti občin.
 Slika \ref{fig:graf} prikazuje plače v večjih slovenskih mestih, občin je občutno preveč za prikaz na enem grafu.
 
 ```{r razpredelnice, echo=FALSE}
-kable(head(place))
+kable(head(zdr))
 ```
 
-```{r graf, echo=FALSE, fig.align='center', fig.cap='Graf bruto plač v večjih mestih'}
+#Vizualizacija
 
-ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=mesec, y=bruto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
+```{r graf, echo=FALSE, fig.align='center', fig.cap='Graf neto plač v večjih mestih'}
+
+ggplot(filter(place,
+              kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')) %>%
+         mutate(datum = paste(leto, meseci[mesec], 1, sep = "-") %>% as.Date()),
+       aes(x=datum, y=neto, group = kraj, color = kraj)) +
+  geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
 
 ```
 
-```{r grafic, echo=FALSE, fig.align='center', fig.cap='Graf neto plač v večjih mestih'}
+```{r vizualizacija, echo=FALSE}
+source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
+```
 
-ggplot(filter(place, kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=mesec, y=neto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
+Slika \ref{fig:zemljevid} prikazuje julijsko neto plačo leta 2015 za vsako občino.
+
+```{r zemljevid, echo=FALSE, fig.align='center', fig.cap='Neto plače Julij 2015'}
+ggplot() + geom_polygon(data = zdr %>%
+                                 filter(leto == 2015, mesec == "Julij") %>%
+                                 right_join(ob), aes(x=long, y=lat, group=group, fill=neto), color = "grey") +
+  scale_fill_gradient(low="#002b29", high="#00fff3") +
+  guides(fill = guide_colorbar(title = "neto"))
 
 ```
+
 ***
