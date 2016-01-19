@@ -53,13 +53,39 @@ ggplot(filter(place,
 
 ```
 
-```{r vizualizacija, echo=FALSE}
-source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
-```
+# ```{r vizualizacija, echo=FALSE}
+# source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
+# ```
 
 Slika \ref{fig:zemljevid} prikazuje julijsko neto plačo leta 2015 za vsako občino.
 
 ```{r zemljevid, echo=FALSE, fig.align='center', fig.cap='Neto plače Julij 2015'}
+source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
+library(ggplot2)
+library(dplyr)
+
+pretvori.zemljevid <- function(zemljevid) {
+  fo <- fortify(zemljevid)
+  data <- zemljevid@data
+  data$id <- as.character(0:(nrow(data)-1))
+  return(inner_join(fo, data, by="id"))
+}
+
+# 1. Slovenske občine
+
+placepoobcinah <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
+                          "OB/OB", encoding = "Windows-1250")
+
+## Zemljevid z barvami za neto plače
+placepoobcinah$kraj <- gsub("-", " - ", placepoobcinah$OB_UIME)
+placepoobcinah$kraj[placepoobcinah$kraj == "Kanal"] <- "Kanal ob Soči"
+placepoobcinah$kraj[placepoobcinah$kraj == "Loški Potok"] <- "Loški potok"
+placepoobcinah$kraj[placepoobcinah$kraj == "Sveti Andraž v Slov. goricah"] <- "Sveti Andraž v Slovenskih goricah"
+
+placepoobcinah$kraj <- factor(placepoobcinah$kraj)
+zdr$kraj <- factor(zdr$kraj)
+ob <- pretvori.zemljevid(placepoobcinah)
+
 zem <- ggplot() + geom_polygon(data = zdr %>%
                                  filter(leto == 2015, mesec == "Julij") %>%
                                  right_join(ob), aes(x=long, y=lat, group=group, fill=neto), color = "grey") +
@@ -78,11 +104,11 @@ print(zem2)
 
 ```{r zemljevid3, echo=FALSE, fig.align='center', fig.cap='Neto plače Julij 2015 s pikami in imeni občin'}
 zem3 <- zem2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", neto > 1000)
-                         %>% inner_join(placepoobcinah@data), aes(x = Y_C, y = X_C, label = kraj),
-                         size = 3, vjust = 2, )
+                          %>% inner_join(placepoobcinah@data),
+                          aes(x = Y_C, y = X_C, label = kraj),
+                          size = 3, vjust = 2)
 print(zem3)
 
 ```
-
 
 ***
