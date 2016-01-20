@@ -25,7 +25,7 @@ Izbrala sem si temo bruto in neto plač v Sloveniji v zadnjih letih. Za vzorec s
 
 # Obdelava, uvoz in čiščenje podatkov
 
-```{r uvoz, echo=FALSE}
+```{r uvoz, echo=FALSE,message = FALSE}
 source("uvoz/uvoz.r", encoding = "UTF-8")
 ```
 
@@ -43,7 +43,7 @@ kable(head(zdr))
 
 #Vizualizacija
 
-```{r graf, echo=FALSE, fig.align='center', fig.cap='Graf neto plač v večjih mestih'}
+```{r graf, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Graf neto plač v večjih mestih'}
 
 ggplot(filter(place,
               kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')) %>%
@@ -53,13 +53,9 @@ ggplot(filter(place,
 
 ```
 
-# ```{r vizualizacija, echo=FALSE}
-# source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
-# ```
-
 Slika \ref{fig:zemljevid} prikazuje julijsko neto plačo leta 2015 za vsako občino.
 
-```{r zemljevid, echo=FALSE, fig.align='center', fig.cap='Neto plače Julij 2015'}
+```{r zemljevid, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Neto plače Julij 2015'}
 source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
 library(ggplot2)
 library(dplyr)
@@ -95,14 +91,14 @@ print(zem)
 
 ```
 
-```{r zemljevid2, echo=FALSE, fig.align='center', fig.cap='Neto plače Julij 2015 s pikami'}
+```{r zemljevid2, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Neto plače Julij 2015 s pikami'}
 zem2 <- zem +geom_point(data = zdr %>%
                      filter(leto == 2015, mesec == "Julij", neto > 1000) %>%
                      inner_join(placepoobcinah@data), aes(x = Y_C, y = X_C))
 print(zem2)
 ```
 
-```{r zemljevid3, echo=FALSE, fig.align='center', fig.cap='Neto plače Julij 2015 s pikami in imeni občin'}
+```{r zemljevid3, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Neto plače Julij 2015 s pikami in imeni občin'}
 zem3 <- zem2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", neto > 1000)
                           %>% inner_join(placepoobcinah@data),
                           aes(x = Y_C, y = X_C, label = kraj),
