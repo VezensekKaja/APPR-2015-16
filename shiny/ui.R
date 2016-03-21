@@ -2,22 +2,18 @@ library(shiny)
 
 shinyUI(fluidPage(
   
-  titlePanel("Slovenske občine"),
+  titlePanel("Plače po letih"),
   
-  tabsetPanel(
-      tabPanel("Velikost družine",
-               DT::dataTableOutput("druzine")),
+  sidebarLayout(
+    sidebarPanel(
       
-      tabPanel("Število naselij",
-               sidebarPanel(
-                  uiOutput("pokrajine")
-                ),
-               mainPanel(plotOutput("naselja"))),
+      helpText("Izberi leto in vrsto"),
       
-      tabPanel("Zemljevid",
-               plotOutput("zemljevid")),
+      sliderInput(inputId ="izberi", label="Izberi leto:",
+                  value=2007, min=2007, max=2015, step=1, sep=""),
       
-      tabPanel("Število naselij in površina",
-               plotOutput("povrsina"))
-    )
-))
+      selectInput(inputId="izb", label ="Izberi kategorijo:",
+                  choices = list ("neto", "bruto"), 
+                  selected = "neto")),
+    mainPanel(plotOutput(outputId ="Graf"))
+  )))
