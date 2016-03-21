@@ -40,4 +40,11 @@ graf <- ggplot(filter(place,
 #grafbruto <- ggplot(filter(place, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=leto, y=bruto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
 #grafneto <- ggplot(filter(place, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=mesec, y=neto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
 
-zdr['Bruto/površina'] <- zdr[bruto[]]/zdr[površina[]]
+zdr <- mutate(zdr, 'Bruto/površina' = bruto/površina) 
+is.n <- sapply(zdr, is.numeric)
+zdr[is.n]<-lapply(zdr[is.n], round, 2)
+
+grafbnap <- ggplot(filter(zdr, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')) %>%
+            mutate(datum = paste(leto, meseci[mesec], 1, sep = "-") %>% as.Date()),
+            aes(x=datum, y=bruto/površina, group = kraj, color = kraj)) +
+            geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))

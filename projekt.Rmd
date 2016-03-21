@@ -55,7 +55,7 @@ ggplot(filter(place,
 
 ```{r graf2, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Graf neto plač v večjih mestih'}
 
-grafbnap <- ggplot(filter(zdr, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')) %>%
+ggplot(filter(zdr, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')) %>%
             mutate(datum = paste(leto, meseci[mesec], 1, sep = "-") %>% as.Date()),
             aes(x=datum, y=bruto/površina, group = kraj, color = kraj)) +
             geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
