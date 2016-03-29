@@ -31,18 +31,18 @@ zem <- ggplot() + geom_polygon(data = zdr %>%
                                  right_join(ob), aes(x=long, y=lat, group=group, fill=neto), color = "grey") +
   scale_fill_gradient(low="#002b29", high="#00fff3") +
   guides(fill = guide_colorbar(title = "neto"))
-print(zem)
+#print(zem)
 
 zem2 <- zem +geom_point(data = zdr %>%
                      filter(leto == 2015, mesec == "Julij", neto > 1000) %>%
                      inner_join(placepoobcinah@data), aes(x = Y_C, y = X_C))
-print(zem2)
+#print(zem2)
 
 zem3 <- zem2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", neto > 1000)
                          %>% inner_join(placepoobcinah@data),
                          aes(x = Y_C, y = X_C, label = kraj),
                          size = 3, vjust = 2)
-print(zem3)
+#print(zem3)
 
 ## Zemljevid za bruto plače glede na površino po občinah
 
@@ -60,20 +60,20 @@ ob <- pretvori.zemljevid(bnppoobcinah)
 
 zembnp <- ggplot() + geom_polygon(data = zdr %>%
                                  filter(leto == 2015, mesec == "Julij") %>%
-                                 right_join(ob), aes(x=long, y=lat, group=group, fill=bruto/površina), color = "grey") +
+                                 right_join(ob), aes(x=long, y=lat, group=group, fill=bruto/povrsina), color = "grey") +
   scale_fill_gradient(low="#FFFF99", high="#000066") +
   guides(fill = guide_colorbar(title = "bruto/površina"))
-print(zembnp)
+#print(zembnp)
 
 zembnp2 <- zembnp +geom_point(data = zdr %>%
-                          filter(leto == 2015, mesec == "Julij", bruto/površina > 50) %>%
+                          filter(leto == 2015, mesec == "Julij", bruto/povrsina > 50) %>%
                           inner_join(bnppoobcinah@data), aes(x = Y_C, y = X_C))
-print(zembnp2)
+#print(zembnp2)
 
 
-zembnp3 <- zembnp2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", bruto/površina > 50)
+zembnp3 <- zembnp2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", bruto/povrsina > 50)
                          %>% inner_join(bnppoobcinah@data),
                          aes(x = Y_C, y = X_C, label = kraj),
                          size = 3, vjust = 2)
-print(zembnp3)
+#print(zembnp3)
 

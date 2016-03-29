@@ -1,28 +1,10 @@
 library(shiny)
 
-if ("server.R" %in% dir()) {
-  setwd("..")
-}
-source("lib/libraries.r", encoding = "UTF-8")
-source("uvoz/uvoz.r", encoding = "UTF-8")
-source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
-source("analiza/analiza.r", encoding = "UTF-8")
-
 shinyServer(function(input, output) {
   output$Graf <- renderPlot({
-    
-    placeleto <- razberi(input$izberi,"kratko",data)
-    
-    podatek <- input$izb
-    
-    stip1 <- subset(placeneto,podatek >= 0)
-    stip2 <- subset(placebruto,podatek < 0)
-    
-    ggplot()+
-      geom_bar(data=stip1,aes_string("kratko", podatek), 
-               stat="identity",fill="deeppink3",size=10)+
-      geom_bar(data=stip2,aes_string("kratko", podatek), 
-               stat="identity",fill="deeppink3",size=10)+
+    ggplot(zdr %>% filter(leto == input$izberi, povrsina > 200),
+           aes_string(x = "kraj", y = input$izb)) +
+      geom_bar(stat="identity",fill="deeppink3",size=10) +
       coord_flip()
   })
 })

@@ -1,11 +1,13 @@
 ---
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
 author: "Kaja Vezenšek"
+runtime: shiny
 output:
+  html_document: default
   pdf_document:
-    latex_engine: xelatex
     includes:
       in_header: lib/styles.sty
+    latex_engine: xelatex
 ---
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
@@ -27,6 +29,7 @@ Izbrala sem si temo bruto in neto plač v Sloveniji v zadnjih letih. Za vzorec s
 
 ```{r uvoz, echo=FALSE,message = FALSE}
 source("uvoz/uvoz.r", encoding = "UTF-8")
+source("vizualizacija//vizualizacija.r", encoding = "UTF-8")
 ```
 
 Uvozila sm podatke o plačah v obliki CSV s statističnega urada (http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=0701041S&ti=&path=../Database/Dem_soc/07_trg_dela/10_place/01_07010_place/&lang=2) ter v obliki HTML
@@ -57,87 +60,29 @@ ggplot(filter(place,
 
 ggplot(filter(zdr, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')) %>%
             mutate(datum = paste(leto, meseci[mesec], 1, sep = "-") %>% as.Date()),
-            aes(x=datum, y=bruto/površina, group = kraj, color = kraj)) +
+            aes(x=datum, y=bruto/povrsina, group = kraj, color = kraj)) +
             geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
 
 ```
 
 Slika \ref{fig:zemljevid} prikazuje julijsko neto plačo leta 2015 za vsako občino.
 
-```{r zemljevid, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Neto plače Julij 2015 (neto>1000)'}
-source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
-library(ggplot2)
-library(dplyr)
-
-pretvori.zemljevid <- function(zemljevid) {
-  fo <- fortify(zemljevid)
-  data <- zemljevid@data
-  data$id <- as.character(0:(nrow(data)-1))
-  return(inner_join(fo, data, by="id"))
-}
-
-# 1. Slovenske občine
-
-placepoobcinah <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
-                          "OB/OB", encoding = "Windows-1250")
-
-## Zemljevid z barvami za neto plače
-placepoobcinah$kraj <- gsub("-", " - ", placepoobcinah$OB_UIME)
-placepoobcinah$kraj[placepoobcinah$kraj == "Kanal"] <- "Kanal ob Soči"
-placepoobcinah$kraj[placepoobcinah$kraj == "Loški Potok"] <- "Loški potok"
-placepoobcinah$kraj[placepoobcinah$kraj == "Sveti Andraž v Slov. goricah"] <- "Sveti Andraž v Slovenskih goricah"
-
-placepoobcinah$kraj <- factor(placepoobcinah$kraj)
-zdr$kraj <- factor(zdr$kraj)
-ob <- pretvori.zemljevid(placepoobcinah)
-
-zem <- ggplot() + geom_polygon(data = zdr %>%
-                                 filter(leto == 2015, mesec == "Julij") %>%
-                                 right_join(ob), aes(x=long, y=lat, group=group, fill=neto), color = "grey") +
-  scale_fill_gradient(low="#002b29", high="#00fff3") +
-  guides(fill = guide_colorbar(title = "neto"))
-
-zem2 <- zem +geom_point(data = zdr %>%
-                     filter(leto == 2015, mesec == "Julij", neto > 1000) %>%
-                     inner_join(placepoobcinah@data), aes(x = Y_C, y = X_C))
-
-zem3 <- zem2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", neto > 1000)
-                          %>% inner_join(placepoobcinah@data),
-                          aes(x = Y_C, y = X_C, label = kraj),
-                          size = 3, vjust = 2)
+```{r zemljevid, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Neto plače Julij 2015 (neto nad 1000)'}
 print(zem3)
-
 ```
 
-```{r zemljevid2, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Razmerje bruto/površina Julij 2015 (razmerje>50)'}
+aaa
 
-bnppoobcinah <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
-                                  "OB/OB", encoding = "Windows-1250")
-## Zemljevid z barvami
-bnppoobcinah$kraj <- gsub("-", " - ", bnppoobcinah$OB_UIME)
-bnppoobcinah$kraj[bnppoobcinah$kraj == "Kanal"] <- "Kanal ob Soči"
-bnppoobcinah$kraj[bnppoobcinah$kraj == "Loški Potok"] <- "Loški potok"
-bnppoobcinah$kraj[bnppoobcinah$kraj == "Sveti Andraž v Slov. goricah"] <- "Sveti Andraž v Slovenskih goricah"
-
-bnppoobcinah$kraj <- factor(bnppoobcinah$kraj)
-zdr$kraj <- factor(zdr$kraj)
-ob <- pretvori.zemljevid(bnppoobcinah)
-
-zembnp <- ggplot() + geom_polygon(data = zdr %>%
-                                 filter(leto == 2015, mesec == "Julij") %>%
-                                 right_join(ob), aes(x=long, y=lat, group=group, fill=bruto/površina), color = "grey") +
-  scale_fill_gradient(low="#FFFF99", high="#000066") +
-  guides(fill = guide_colorbar(title = "bruto/površina"))
-
-zembnp2 <- zembnp +geom_point(data = zdr %>%
-                          filter(leto == 2015, mesec == "Julij", bruto/površina > 50) %>%
-                          inner_join(bnppoobcinah@data), aes(x = Y_C, y = X_C))
-
-zembnp3 <- zembnp2 + geom_text(data = zdr %>% filter(leto == 2015, mesec == "Julij", bruto/površina > 50)
-                         %>% inner_join(bnppoobcinah@data),
-                         aes(x = Y_C, y = X_C, label = kraj),
-                         size = 3, vjust = 2)
+```{r zemljevid2, echo=FALSE, fig.align='center',message = FALSE}
+# fig.cap='Razmerje bruto:površina Julij 2015 (razmerje nad 50)'
 print(zembnp3)
 ```
+
+Shiny
+
+```{r shiny, echo=FALSE}
+shinyAppDir("shiny", options = list(width="100%", height = 600))
+```
+
 
 ***

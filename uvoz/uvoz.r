@@ -25,7 +25,7 @@ names(tabela2) <- 'kraj'
 Encoding(names(tabela2)) <- "UTF-8"
 Encoding(tabela2[[1]]) <- "UTF-8"
 
-zdr <- right_join(place, data.frame(tabela2)) %>% select(-starts_with('NA..')) %>% rename(`površina` = `NA.`)
+zdr <- right_join(place, data.frame(tabela2)) %>% select(-starts_with('NA..')) %>% rename(`povrsina` = `NA.`)
 
 meseci <- c("Januar" = 1, "Julij" = 7)
 graf <- ggplot(filter(place,
@@ -40,11 +40,11 @@ graf <- ggplot(filter(place,
 #grafbruto <- ggplot(filter(place, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=leto, y=bruto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
 #grafneto <- ggplot(filter(place, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')), aes(x=mesec, y=neto, group = kraj, color = kraj)) + geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
 
-zdr <- mutate(zdr, 'Bruto/površina' = bruto/površina) 
+zdr <- mutate(zdr, 'Bruto/povrsina' = bruto/`povrsina`) 
 is.n <- sapply(zdr, is.numeric)
 zdr[is.n]<-lapply(zdr[is.n], round, 2)
 
 grafbnap <- ggplot(filter(zdr, kraj %in% c("Koper", "Ljubljana", "Maribor", 'Celje', 'Murska Sobota', 'Nova Gorica', 'Kranj', 'Novo Mesto')) %>%
             mutate(datum = paste(leto, meseci[mesec], 1, sep = "-") %>% as.Date()),
-            aes(x=datum, y=bruto/površina, group = kraj, color = kraj)) +
+            aes(x=datum, y=bruto/povrsina, group = kraj, color = kraj)) +
             geom_line() + theme(axis.text.x = element_text(angle=60, hjust=1))
