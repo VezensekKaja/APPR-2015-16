@@ -84,5 +84,12 @@ Shiny
 shinyAppDir("shiny", options = list(width="100%", height = 600))
 ```
 
+Shiny2
+
+```{r shiny2, echo=FALSE}
+shinyAppDir("shiny2", options = list(width="100%", height = 600))
+```
+
+
 
 ***
