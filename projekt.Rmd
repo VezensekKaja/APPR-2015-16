@@ -71,20 +71,20 @@ Slika \ref{fig:zemljevid} prikazuje julijsko neto plačo leta 2015 za vsako obč
 print(zem3)
 ```
 
-aaa
+Slika \ref{fig:zemljevid2} prikazuje julijsko razmerje bruto/površina leta 2015 za vsako občino.
 
 ```{r zemljevid2, echo=FALSE, fig.align='center',message = FALSE}
 # fig.cap='Razmerje bruto:površina Julij 2015 (razmerje nad 50)'
 print(zembnp3)
 ```
 
-Shiny
+Shiny \ref{fig:shiny} prikazuje kako se s časom spreminja neto oziroma bruto plača v občinah s površino več kot 200.
 
 ```{r shiny, echo=FALSE}
 shinyAppDir("shiny", options = list(width="100%", height = 600))
 ```
 
-Shiny2
+Shiny2 \ref{fig:shiny2} prikazuje kako se s časom spreminja razmerje bruto/površino v občinah z razmerjem več kot 50.
 
 ```{r shiny2, echo=FALSE}
 shinyAppDir("shiny2", options = list(width="100%", height = 600))
