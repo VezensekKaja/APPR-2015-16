@@ -15,8 +15,8 @@ shinyServer(function(input, output) {
     
     podatek <- input$izb
     
-    stip1 <- subset(stipendijeleto,podatek >= 0)
-    stip2 <- subset(stipendijeleto,podatek < 0)
+    stip1 <- subset(placeneto,podatek >= 0)
+    stip2 <- subset(placebruto,podatek < 0)
     
     ggplot()+
       geom_bar(data=stip1,aes_string("kratko", podatek), 
