@@ -30,6 +30,7 @@ Izbrala sem si temo bruto in neto plač v Sloveniji v zadnjih letih. Za vzorec s
 ```{r uvoz, echo=FALSE,message = FALSE}
 source("uvoz/uvoz.r", encoding = "UTF-8")
 source("vizualizacija//vizualizacija.r", encoding = "UTF-8")
+source("analiza/analiza.r", encoding = "UTF-8")
 ```
 
 Uvozila sm podatke o plačah v obliki CSV s statističnega urada (http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=0701041S&ti=&path=../Database/Dem_soc/07_trg_dela/10_place/01_07010_place/&lang=2) ter v obliki HTML
@@ -90,6 +91,16 @@ Shiny2 \ref{fig:shiny2} prikazuje kako se s časom spreminja razmerje bruto/povr
 shinyAppDir("shiny2", options = list(width="100%", height = 600))
 ```
 
+#Analiza
 
+Na podlagi podatkov sem naredila analizo rasti plač. Vizualno sem prikazala le enega izmed mest - Ljubljano. 
+```{r napoved, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Napoved rasti bruto plač do leta 2021'}
+print(g1)
+print(napoved)
+```
 
-***
+Potem pa sem primerjala še bruto plačo glede na površino. Prikazan je graf napovedi za Cerklje na Gorenjskem, kjer imajo prebivalci trenutno najvišjo povprečno bruto blačo.
+```{r napoved2, echo=FALSE, fig.align='center',message = FALSE, fig.cap='Napoved rasti razmerja bruto nad povrsino do leta 2021'}
+print(g2)
+print(napoved2)
+```
