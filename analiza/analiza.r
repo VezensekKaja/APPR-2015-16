@@ -13,7 +13,7 @@ g1 <- ggplot(zdr %>% filter(kraj == "Ljubljana"),
   geom_smooth(method = "lm",formula = y ~ x+I(x^(2))+I(log(x)), size = 1, fullrange = TRUE)
 
 #Izpiše koeficient, prosti člen
-lin <- lm(data = zdr, bruto ~ timestamp+I(timestamp^2)+I(log(timestamp)))
+lin <- lm(data = zdr %>% filter(kraj == "Ljubljana"), bruto ~ timestamp+I(timestamp^2)+I(log(timestamp)))
 
 #Izpiše višino plač od leta 2015 do leta 2021
 napoved <- predict(lin, data.frame(timestamp = paste0(c(2015:2021), "-1-1") %>%
@@ -31,7 +31,7 @@ g2 <- ggplot(zdr %>% filter(kraj == "Cerklje na Gorenjskem"),
   geom_smooth(method = "lm",formula = y ~ x+I(log(x)), size = 1, fullrange = TRUE)
 
 #Izpiše koeficient, prosti člen
-lin2 <- lm(data = zdr, bruto/povrsina ~ timestamp+I(log(timestamp)))
+lin2 <- lm(data = zdr %>% filter(kraj == "Cerklje na Gorenjskem"), bruto/povrsina ~ timestamp+I(log(timestamp)))
 
 #Izpiše višino razmerja bruto/površino od leta 2015 do leta 2021
 napoved2 <- predict(lin2, data.frame(timestamp = paste0(c(2015:2021), "-1-1") %>%
